@@ -1,7 +1,7 @@
 package org.gangonem.model;
 
 public enum EventType {
-	// 55 subject to change? XC lengths for female? hep for male? dec for female?
+	// 55m subject to change? XC lengths for female? hep for male? dec for female?
 	MALE_TRACK_55, MALE_TRACK_60, MALE_TRACK_100, MALE_TRACK_200, MALE_TRACK_300, MALE_TRACK_400, MALE_TRACK_500,
 	MALE_TRACK_600, MALE_TRACK_800, MALE_TRACK_1000, MALE_TRACK_1500, MALE_TRACK_1600, MALE_TRACK_MILE, MALE_TRACK_3000,
 	MALE_TRACK_3200, MALE_TRACK_5000, MALE_TRACK_10000, MALE_TRACK_55_HURDLE, MALE_TRACK_60_HURDLE,

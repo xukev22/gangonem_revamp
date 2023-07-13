@@ -2,11 +2,15 @@ package org.gangonem.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Distance implements Mark {
 	// we want this to always be rounded to nearest hundredth
 	BigDecimal meters;
 
-	public Distance(BigDecimal meters) {
+	@JsonCreator
+	public Distance(@JsonProperty("meters") BigDecimal meters) {
 		this.meters = meters;
 	}
 

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StandardsSet {
 
 	Standards maleWalkOn;
@@ -18,6 +21,22 @@ public class StandardsSet {
 	Standards femaleWalkOn;
 	Standards femaleSoftRecruit;
 	Standards femaleHardRecruit;
+
+	@JsonCreator
+	public StandardsSet(@JsonProperty("maleWalkOn") Standards maleWalkOn,
+			@JsonProperty("maleSoftRecruit") Standards maleSoftRecruit,
+			@JsonProperty("maleHardRecruit") Standards maleHardRecruit,
+			@JsonProperty("femaleWalkOn") Standards femaleWalkOn,
+			@JsonProperty("femaleSoftRecruit") Standards femaleSoftRecruit,
+			@JsonProperty("femaleHardRecruit") Standards femaleHardRecruit) {
+		this.maleWalkOn = maleWalkOn;
+		this.maleSoftRecruit = maleSoftRecruit;
+		this.maleHardRecruit = maleHardRecruit;
+
+		this.femaleWalkOn = femaleWalkOn;
+		this.femaleSoftRecruit = femaleSoftRecruit;
+		this.femaleHardRecruit = femaleHardRecruit;
+	}
 
 	public Standards getMaleWalkOn() {
 		return maleWalkOn;

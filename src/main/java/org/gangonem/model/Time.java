@@ -1,15 +1,24 @@
 package org.gangonem.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Time implements Mark {
 
 	int minute;
 	int second;
 	String fracSecond; // should be "00" to "99"
 
-	public Time(int minute, int second, String fracSecond) {
+	@JsonCreator
+	public Time(@JsonProperty("minute") int minute, @JsonProperty("second") int second,
+			@JsonProperty("fracSecond") String fracSecond) {
 		this.minute = minute;
 		this.second = second;
-		this.fracSecond = fracSecond;
+		if (fracSecond.length() < 2) {
+			this.fracSecond = "0" + fracSecond;
+		} else {
+			this.fracSecond = fracSecond;
+		}
 	}
 
 	public int getMinute() {

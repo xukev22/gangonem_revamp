@@ -3,15 +3,17 @@ package org.gangonem;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.gangonem.cleaning.DataCleaner;
-import org.gangonem.mining.TFRRSParser;
 import org.gangonem.model.CleanedData;
 import org.gangonem.model.CollegeProfile;
 import org.gangonem.model.Essentials;
-import org.gangonem.model.Meet;
 import org.gangonem.processing.DataProcessing;
 import org.gangonem.utils.CSVUtils;
 import org.gangonem.utils.GeneralUtils;
@@ -45,11 +47,20 @@ public class MainApp {
 		masterLoe.addAll(loe1);
 		masterLoe.addAll(loe2);
 		masterLoe.addAll(loe3);
+		
+		Comparator<Essentials> essentialsComparator = Comparator.comparing(Essentials::getName);
 
-		List<CollegeProfile> cleanCollegeProfile = new DataProcessing().createCollegeProfiles(cleanedData, masterLoe,
+		Set<Essentials> uniqueEssentialsSet = new HashSet<>(masterLoe);
+		List<Essentials> uniqueEssentialsList = new ArrayList<>(uniqueEssentialsSet);
+		Collections.sort(uniqueEssentialsList, essentialsComparator);
+
+
+		List<CollegeProfile> cleanCollegeProfile = new DataProcessing().createCollegeProfiles(cleanedData, uniqueEssentialsList,
 				csvMappingBig);
 
 		GeneralUtils.writeObjectToJSON(cleanCollegeProfile, new File("./data/bigCleanFinalTest.json"));
+		
+		//new GeneralUtils().fileReaderCollegeProfileData(new File("./data/bigCleanFinalTest.json"));
 
 		// END TESTING SPACE:
 

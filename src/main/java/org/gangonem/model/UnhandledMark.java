@@ -1,11 +1,7 @@
 package org.gangonem.model;
 
 public class UnhandledMark implements Mark {
-	// Dummy getter method for Jackson serialization
-	public String getDummy() {
-		// You can return a constant value or any desired value
-		return "Unhandled";
-	}
+	static String unhandled_mark = "unhandled_mark";
 
 	@Override
 	public int compare(Mark other) {

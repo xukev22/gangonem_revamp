@@ -2,10 +2,15 @@ package org.gangonem.model;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Standards {
 	Map<EventType, Mark> existingEventsMapAndTheirTargetStandard;
 
-	public Standards(Map<EventType, Mark> existingEventsMapAndTheirTargetStandard) {
+	@JsonCreator
+	public Standards(
+			@JsonProperty("existingEventsMapAndTheirTargetStandard") Map<EventType, Mark> existingEventsMapAndTheirTargetStandard) {
 		this.existingEventsMapAndTheirTargetStandard = existingEventsMapAndTheirTargetStandard;
 	}
 

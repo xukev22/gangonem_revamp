@@ -1,7 +1,12 @@
 package org.gangonem.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Points implements Mark {
-	public Points(int points) {
+	
+	@JsonCreator
+	public Points(@JsonProperty("points") int points) {
 		if (points < 0) {
 			throw new IllegalArgumentException("Points was less than 0!");
 		}
