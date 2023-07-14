@@ -20,13 +20,15 @@ public class RecruitingController {
 	public CollegeProfile getDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
 		// search for college name, return the full college profile
 
-		if (recruitingService.getDetailsForCollegeByName(collegeName).isPresent()) {
-			return recruitingService.getDetailsForCollegeByName(collegeName).get();
+		String convertedAndToAmpersand = collegeName.replace("and", "&");
+
+		if (recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).isPresent()) {
+			return recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).get();
 		} else {
-			throw new RuntimeException("College profile not found for: " + collegeName);
+			throw new RuntimeException("College profile not found for: " + convertedAndToAmpersand);
 		}
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:5173")
 	@GetMapping("/colleges/getListOfAllCollegeNames")
 	public List<String> getListOfAllCollegeNames() {
