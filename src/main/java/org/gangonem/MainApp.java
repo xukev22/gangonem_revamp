@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.gangonem.cleaning.DataCleaner;
+import org.gangonem.mining.NCAAParserBonus;
 import org.gangonem.model.CleanedData;
 import org.gangonem.model.CollegeProfile;
 import org.gangonem.model.Essentials;
@@ -34,33 +35,36 @@ public class MainApp {
 
 		// TESTING SPACE:
 
-		CleanedData cleanedData = new DataCleaner()
-				.cleanMeets(new GeneralUtils().fileReaderMeetData(new File("./data/meetsSample.json")));
+		new NCAAParserBonus().parseCollegeByNewNCAA("https://www.ncaa.com/schools-index");
 
-		Map<String, String> csvMappingBig = CSVUtils.csvToHashMap(new File("./data/NCAAToTfrrsMapNew.csv"), 0);
+//		CleanedData cleanedData = new DataCleaner()
+//				.cleanMeets(new GeneralUtils().fileReaderMeetData(new File("./data/meetsSample.json")));
+//
+//		Map<String, String> csvMappingBig = CSVUtils.csvToHashMap(new File("./data/NCAAToTfrrsMapNew.csv"), 0);
+//
+//		List<Essentials> loe1 = new GeneralUtils().fileReaderEssentialsData(new File("./data/div1Test.json"));
+//		List<Essentials> loe2 = new GeneralUtils().fileReaderEssentialsData(new File("./data/div2Test.json"));
+//		List<Essentials> loe3 = new GeneralUtils().fileReaderEssentialsData(new File("./data/div3Test.json"));
+//
+//		List<Essentials> masterLoe = new ArrayList<>();
+//		masterLoe.addAll(loe1);
+//		masterLoe.addAll(loe2);
+//		masterLoe.addAll(loe3);
+//		
+//		Comparator<Essentials> essentialsComparator = Comparator.comparing(Essentials::getName);
+//
+//		Set<Essentials> uniqueEssentialsSet = new HashSet<>(masterLoe);
+//		List<Essentials> uniqueEssentialsList = new ArrayList<>(uniqueEssentialsSet);
+//		Collections.sort(uniqueEssentialsList, essentialsComparator);
+//
+//
+//		List<CollegeProfile> cleanCollegeProfile = new DataProcessing().createCollegeProfiles(cleanedData, uniqueEssentialsList,
+//				csvMappingBig);
+//
+//		GeneralUtils.writeObjectToJSON(cleanCollegeProfile, new File("./data/bigCleanFinalTest.json"));
 
-		List<Essentials> loe1 = new GeneralUtils().fileReaderEssentialsData(new File("./data/div1Test.json"));
-		List<Essentials> loe2 = new GeneralUtils().fileReaderEssentialsData(new File("./data/div2Test.json"));
-		List<Essentials> loe3 = new GeneralUtils().fileReaderEssentialsData(new File("./data/div3Test.json"));
-
-		List<Essentials> masterLoe = new ArrayList<>();
-		masterLoe.addAll(loe1);
-		masterLoe.addAll(loe2);
-		masterLoe.addAll(loe3);
-		
-		Comparator<Essentials> essentialsComparator = Comparator.comparing(Essentials::getName);
-
-		Set<Essentials> uniqueEssentialsSet = new HashSet<>(masterLoe);
-		List<Essentials> uniqueEssentialsList = new ArrayList<>(uniqueEssentialsSet);
-		Collections.sort(uniqueEssentialsList, essentialsComparator);
-
-
-		List<CollegeProfile> cleanCollegeProfile = new DataProcessing().createCollegeProfiles(cleanedData, uniqueEssentialsList,
-				csvMappingBig);
-
-		GeneralUtils.writeObjectToJSON(cleanCollegeProfile, new File("./data/bigCleanFinalTest.json"));
-		
-		//new GeneralUtils().fileReaderCollegeProfileData(new File("./data/bigCleanFinalTest.json"));
+		// new GeneralUtils().fileReaderCollegeProfileData(new
+		// File("./data/bigCleanFinalTest.json"));
 
 		// END TESTING SPACE:
 
