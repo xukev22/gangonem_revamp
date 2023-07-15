@@ -21,28 +21,36 @@ public class RecruitingController {
 	public CollegeProfile getDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
 		// search for college name, return the full college profile
 
+		CollegeProfile returnProfile = new CollegeProfile();
+
 		String convertedAndToAmpersand = collegeName.replace("and", "&");
 
 		if (recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).isPresent()) {
-			return recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).get();
+			returnProfile = recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).get();
 		} else {
 			throw new RuntimeException("College profile not found for: " + convertedAndToAmpersand);
 		}
-	}
-	
-	@CrossOrigin(origins = "http://localhost:5173")
-	@GetMapping("/colleges/getMoreDetailsForCollegeByName")
-	public EssentialsBonus getMoreDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
-		// search for college name, return the full college profile
-
-		String convertedAndToAmpersand = collegeName.replace("and", "&");
 
 		if (recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).isPresent()) {
-			return recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).get();
-		} else {
-			throw new RuntimeException("College profile not found for: " + convertedAndToAmpersand);
+			returnProfile.setEb(recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).get());
 		}
+
+		return returnProfile;
 	}
+
+//	@CrossOrigin(origins = "http://localhost:5173")
+//	@GetMapping("/colleges/getMoreDetailsForCollegeByName")
+//	public EssentialsBonus getMoreDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
+//		// search for college name, return the full college profile
+//
+//		String convertedAndToAmpersand = collegeName.replace("and", "&");
+//
+//		if (recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).isPresent()) {
+//			return recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).get();
+//		} else {
+//			throw new RuntimeException("College profile not found for: " + convertedAndToAmpersand);
+//		}
+//	}
 
 	@CrossOrigin(origins = "http://localhost:5173")
 	@GetMapping("/colleges/getListOfAllCollegeNames")

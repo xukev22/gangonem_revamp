@@ -7,11 +7,17 @@ public class CollegeProfile {
 
 	Essentials essentials;
 	StandardsSet standardsSet;
- 
+	EssentialsBonus eb;
+
 	@JsonCreator
-	public CollegeProfile(@JsonProperty("essentials") Essentials essentials, @JsonProperty("standardsSet") StandardsSet standardsSet) {
+	public CollegeProfile(@JsonProperty("essentials") Essentials essentials,
+			@JsonProperty("standardsSet") StandardsSet standardsSet, @JsonProperty("eb") EssentialsBonus eb) {
 		this.essentials = essentials;
 		this.standardsSet = standardsSet;
+		this.eb = eb;
+	}
+
+	public CollegeProfile() {
 	}
 
 	public Essentials getEssentials() {
@@ -28,6 +34,14 @@ public class CollegeProfile {
 
 	public void setStandardsSet(StandardsSet standardsSet) {
 		this.standardsSet = standardsSet;
+	}
+
+	public EssentialsBonus getEb() {
+		return eb;
+	}
+
+	public void setEb(EssentialsBonus eb) {
+		this.eb = eb;
 	}
 
 }

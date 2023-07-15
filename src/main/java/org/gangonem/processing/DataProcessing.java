@@ -31,7 +31,7 @@ public class DataProcessing {
 			StandardsSet standardsSet = createSingleStandardSet(essentialInfo.getName(), tffrsCollegeNameToEventsMap,
 					ncaaToTfrrs);
 
-			CollegeProfile singleCollegeProfile = new CollegeProfile(essentialInfo, standardsSet);
+			CollegeProfile singleCollegeProfile = new CollegeProfile(essentialInfo, standardsSet, null);
 			return singleCollegeProfile;
 		}).collect(Collectors.toList());
 

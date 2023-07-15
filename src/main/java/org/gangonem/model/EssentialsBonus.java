@@ -15,7 +15,7 @@ public class EssentialsBonus {
 
 	@JsonCreator
 	public EssentialsBonus(@JsonProperty("name") String name, @JsonProperty("nickname") String nickname,
-			@JsonProperty("town") String town, @JsonProperty("colors") String hexColor) {
+			@JsonProperty("town") String town, @JsonProperty("hexColor") String hexColor) {
 		this.name = name;
 		this.nickname = nickname;
 		this.town = town;
@@ -72,7 +72,5 @@ public class EssentialsBonus {
 	public void setHexColor(String hexColor) {
 		this.hexColor = hexColor;
 	}
-	
-	
 
 }
