@@ -11,15 +11,15 @@ public class EssentialsBonus {
 	String name;
 	String nickname;
 	String town;
-	List<String> colors;
+	String hexColor;
 
 	@JsonCreator
 	public EssentialsBonus(@JsonProperty("name") String name, @JsonProperty("nickname") String nickname,
-			@JsonProperty("town") String town, @JsonProperty("colors") List<String> colors) {
+			@JsonProperty("town") String town, @JsonProperty("colors") String hexColor) {
 		this.name = name;
 		this.nickname = nickname;
 		this.town = town;
-		this.colors = colors;
+		this.hexColor = hexColor;
 	}
 
 	@Override
@@ -65,12 +65,14 @@ public class EssentialsBonus {
 		this.town = town;
 	}
 
-	public List<String> getColors() {
-		return colors;
+	public String getHexColor() {
+		return hexColor;
 	}
 
-	public void setColors(List<String> colors) {
-		this.colors = colors;
+	public void setHexColor(String hexColor) {
+		this.hexColor = hexColor;
 	}
+	
+	
 
 }

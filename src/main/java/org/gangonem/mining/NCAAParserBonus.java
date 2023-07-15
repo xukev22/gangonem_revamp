@@ -66,11 +66,14 @@ public class NCAAParserBonus {
 		Elements elements = page.select(".dl-group");
 
 		String nickname = elements.get(1).select("dd").text();
-		String colors = elements.get(2).select("dd").text();
+		String color = page.select(".school-header").get(0).attr("style").substring(18).toUpperCase();
 
-		List<String> parsedColors = this.parseColors(colors);
+		System.out.println(trueName + " | " + townParsed + " | " + nickname + " | " + color);
 
-		System.out.println(trueName + " | " + townParsed + " | " + nickname + " | " + parsedColors);
+		essentialsBonus.setName(trueName);
+		essentialsBonus.setTown(townParsed);
+		essentialsBonus.setNickname(nickname);
+		essentialsBonus.setHexColor(color);
 
 		listOfEssentialsProfile.add(essentialsBonus);
 	}
@@ -113,29 +116,5 @@ public class NCAAParserBonus {
 			}
 			schoolURLs.add(hrefValue);
 		}
-	}
-
-	private List<String> parseColors(String colorString) {
-		// Uppercase the colorString
-		String uppercasedString = colorString.toUpperCase();
-
-		// Replace separators with "|"
-		String replacedString = uppercasedString.replaceAll(",|\\bAND\\b|\\bWITH\\b|\\bOR\\b|&", "|");
-
-		// Trim excess spaces after separators
-		replacedString = replacedString.replaceAll("\\s*\\|\\s*", "|");
-
-		// Split the replacedString using "|" separator
-		String[] colorArray = replacedString.split("\\|");
-
-		// Remove consecutive separators from the array
-		List<String> finalColors = new ArrayList<>();
-		for (String color : colorArray) {
-			if (!color.isEmpty()) {
-				finalColors.add(color);
-			}
-		}
-
-		return finalColors;
 	}
 }

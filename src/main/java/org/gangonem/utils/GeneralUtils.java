@@ -17,6 +17,7 @@ import org.gangonem.model.CleanedData;
 import org.gangonem.model.CollegeProfile;
 import org.gangonem.model.Competitor;
 import org.gangonem.model.Essentials;
+import org.gangonem.model.EssentialsBonus;
 import org.gangonem.model.Event;
 import org.gangonem.model.Meet;
 import org.jsoup.Jsoup;
@@ -73,6 +74,15 @@ public class GeneralUtils {
 		ObjectMapper mapper = new ObjectMapper();
 
 		return mapper.readValue(file, new TypeReference<List<Essentials>>() {
+		});
+
+	}
+
+	// Read from a file with list of essentials bonus
+	public List<EssentialsBonus> fileReaderEssentialsBonusData(File file) throws StreamReadException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+
+		return mapper.readValue(file, new TypeReference<List<EssentialsBonus>>() {
 		});
 
 	}

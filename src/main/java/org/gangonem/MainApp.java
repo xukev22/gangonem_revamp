@@ -15,6 +15,7 @@ import org.gangonem.mining.NCAAParserBonus;
 import org.gangonem.model.CleanedData;
 import org.gangonem.model.CollegeProfile;
 import org.gangonem.model.Essentials;
+import org.gangonem.model.EssentialsBonus;
 import org.gangonem.processing.DataProcessing;
 import org.gangonem.utils.CSVUtils;
 import org.gangonem.utils.GeneralUtils;
@@ -35,7 +36,14 @@ public class MainApp {
 
 		// TESTING SPACE:
 
-		new NCAAParserBonus().parseCollegeByNewNCAA("https://www.ncaa.com/schools-index");
+//		List<EssentialsBonus> listOfEssentialsBonus = new NCAAParserBonus()
+//				.parseCollegeByNewNCAA("https://www.ncaa.com/schools-index");
+//		Comparator<EssentialsBonus> essentialsBonusComparator = Comparator.comparing(EssentialsBonus::getName);
+//
+//		Collections.sort(listOfEssentialsBonus, essentialsBonusComparator);
+//		GeneralUtils.writeObjectToJSON(listOfEssentialsBonus, new File("./data/essentialsBonus.json"));
+//		List<EssentialsBonus> essentialsBonus = new GeneralUtils()
+//				.fileReaderEssentialsBonusData(new File("./data/essentialsBonus.json"));
 
 //		CleanedData cleanedData = new DataCleaner()
 //				.cleanMeets(new GeneralUtils().fileReaderMeetData(new File("./data/meetsSample.json")));
@@ -50,13 +58,14 @@ public class MainApp {
 //		masterLoe.addAll(loe1);
 //		masterLoe.addAll(loe2);
 //		masterLoe.addAll(loe3);
-//		
+//
 //		Comparator<Essentials> essentialsComparator = Comparator.comparing(Essentials::getName);
 //
 //		Set<Essentials> uniqueEssentialsSet = new HashSet<>(masterLoe);
 //		List<Essentials> uniqueEssentialsList = new ArrayList<>(uniqueEssentialsSet);
 //		Collections.sort(uniqueEssentialsList, essentialsComparator);
-//
+
+		
 //
 //		List<CollegeProfile> cleanCollegeProfile = new DataProcessing().createCollegeProfiles(cleanedData, uniqueEssentialsList,
 //				csvMappingBig);
