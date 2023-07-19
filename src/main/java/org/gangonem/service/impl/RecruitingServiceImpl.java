@@ -87,8 +87,6 @@ public class RecruitingServiceImpl implements RecruitingService {
 
 		if (hasStaticFilters) {
 			collegeProfileStream = applyStaticFilters(collegeProfileStream, filterDTO);
-		} else {
-			collegeProfileStream = Stream.empty();
 		}
 
 		List<CollegeProfile> staticFilteredColleges = collegeProfileStream.collect(Collectors.toList());
@@ -98,12 +96,15 @@ public class RecruitingServiceImpl implements RecruitingService {
 		if (hasDynamicFilters) {
 			dynamicFilteredColleges = applyDynamicFilters(collegeProfiles.stream(), filterDTO)
 					.collect(Collectors.toList());
+		} else {
+			return staticFilteredColleges;
 		}
 
-		Set<CollegeProfile> unionSet = new HashSet<>(staticFilteredColleges);
-		unionSet.addAll(dynamicFilteredColleges);
+		Set<CollegeProfile> intersectionSet = new HashSet<>(staticFilteredColleges);
+		intersectionSet.retainAll(dynamicFilteredColleges);
 
-		return new ArrayList<>(unionSet);
+		return new ArrayList<>(intersectionSet);
+
 	}
 
 	private Stream<CollegeProfile> applyStaticFilters(Stream<CollegeProfile> collegeProfileStream,
@@ -144,7 +145,9 @@ public class RecruitingServiceImpl implements RecruitingService {
 
 		for (EventType eventType : userInput.keySet()) {
 			Mark mark = MarkConverter.convertToMark(userInput.get(eventType));
-			collegeProfileStream = collegeProfileStream.filter(cp -> beatsWalkOn(cp, eventType, mark, gender));
+			collegeProfileStream = Stream.of(collegeProfileStream, this.collegeProfiles.stream())
+					.flatMap(stream -> stream.filter(cp -> beatsWalkOn(cp, eventType, mark, gender)));
+
 		}
 
 		return collegeProfileStream;
@@ -157,7 +160,6 @@ public class RecruitingServiceImpl implements RecruitingService {
 			return false;
 		}
 
-		// tag difficulties
 		Standards singleGenderStandards = gender.equals(Gender.MALE) ? cp.getStandardsSet().getMaleWalkOn()
 				: cp.getStandardsSet().getFemaleWalkOn();
 
@@ -168,7 +170,6 @@ public class RecruitingServiceImpl implements RecruitingService {
 
 		Mark collegeMark = singleGenderStandards.getExistingEventsMapAndTheirTargetStandard().get(eventType);
 		if (collegeMark == null) {
-			// tag?
 			return false;
 		}
 
