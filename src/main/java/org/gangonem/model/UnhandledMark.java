@@ -27,4 +27,10 @@ public class UnhandledMark implements Mark {
 		return 0;
 	}
 
+	@Override
+	public String debug() {
+		// TODO Auto-generated method stub
+		return unhandled_mark;
+	}
+
 }

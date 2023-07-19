@@ -73,4 +73,9 @@ public class Time implements Mark {
 		return Integer.MIN_VALUE;
 	}
 
+	@Override
+	public String debug() {
+		return this.minute + ":" + this.second + ":" + this.fracSecond;
+	}
+
 }

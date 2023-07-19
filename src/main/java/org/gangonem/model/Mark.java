@@ -26,4 +26,6 @@ public interface Mark {
 
 	// double dispatch compare helper
 	int compareUnhandledMark(UnhandledMark other);
+
+	String debug();
 }

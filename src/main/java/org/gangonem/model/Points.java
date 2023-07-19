@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Points implements Mark {
-	
+
 	@JsonCreator
 	public Points(@JsonProperty("points") int points) {
 		if (points < 0) {
@@ -46,5 +46,11 @@ public class Points implements Mark {
 	@Override
 	public int compareUnhandledMark(UnhandledMark other) {
 		return Integer.MIN_VALUE;
+	}
+
+	@Override
+	public String debug() {
+		// TODO Auto-generated method stub
+		return this.points + "";
 	}
 }

@@ -1,13 +1,22 @@
 package org.gangonem.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.gangonem.model.CollegeProfile;
-import org.gangonem.model.EssentialsBonus;
+import org.gangonem.model.Division;
+import org.gangonem.model.EventType;
+import org.gangonem.model.Gender;
+import org.gangonem.model.HBCUState;
+import org.gangonem.model.PublicPrivateState;
 import org.gangonem.service.RecruitingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +45,41 @@ public class RecruitingController {
 		}
 
 		return returnProfile;
+	}
+
+	@CrossOrigin(origins = "http://localhost:5173")
+	@PostMapping("/colleges/getMatchingColleges")
+	public ResponseEntity<List<CollegeProfile>> getMatchingColleges(@RequestBody FilterDTO filterDTO) {
+		Division divisionFilter = filterDTO.getDivision();
+		String conferenceFilter = filterDTO.getConference();
+		String stateFilter = filterDTO.getState();
+		// String townFilter = filterDTO.getTown();
+		PublicPrivateState publicOrPrivate = filterDTO.getPublicOrPrivate();
+		HBCUState hbcuOrNot = filterDTO.getHbcuOrNot();
+		Gender gender = filterDTO.getGender();
+		Map<EventType, String> userInput = filterDTO.getUserInput();
+
+		boolean statics = divisionFilter != null || conferenceFilter != null || stateFilter != null ||
+		// townFilter != null ||
+				publicOrPrivate != null || hbcuOrNot != null;
+		boolean dynamics = gender != null && userInput != null;
+
+		if (statics && dynamics) {
+			// At least one of the fields is not null, perform the desired action
+			// e.g., process the filters, execute the search, etc.
+			List<CollegeProfile> returnList = recruitingService.getMatchingColleges(true, true, filterDTO);
+			return new ResponseEntity<>(returnList, HttpStatus.OK);
+		} else if (statics) {
+			List<CollegeProfile> returnList = recruitingService.getMatchingColleges(true, false, filterDTO);
+			return new ResponseEntity<>(returnList, HttpStatus.OK);
+		} else if (dynamics) {
+			List<CollegeProfile> returnList = recruitingService.getMatchingColleges(false, true, filterDTO);
+			return new ResponseEntity<>(returnList, HttpStatus.OK);
+		} else {
+			// Handle the case where all fields are null
+			// e.g., return a response indicating no filters were provided
+			throw new RuntimeException("Invalid request");
+		}
 	}
 
 //	@CrossOrigin(origins = "http://localhost:5173")

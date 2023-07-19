@@ -47,4 +47,10 @@ public class Distance implements Mark {
 	public int compareUnhandledMark(UnhandledMark other) {
 		return Integer.MIN_VALUE;
 	}
+
+	@Override
+	public String debug() {
+		// TODO Auto-generated method stub
+		return this.meters + "";
+	}
 }
