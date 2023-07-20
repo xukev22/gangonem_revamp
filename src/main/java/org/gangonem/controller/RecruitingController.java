@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.gangonem.model.CollegeProfile;
+import org.gangonem.model.CollegeProfileTagWrapper;
 import org.gangonem.model.Division;
 import org.gangonem.model.EventType;
 import org.gangonem.model.Gender;
@@ -49,7 +50,7 @@ public class RecruitingController {
 
 	@CrossOrigin(origins = "http://localhost:5173")
 	@PostMapping("/colleges/getMatchingColleges")
-	public ResponseEntity<List<CollegeProfile>> getMatchingColleges(@RequestBody FilterDTO filterDTO) {
+	public ResponseEntity<List<CollegeProfileTagWrapper>> getMatchingColleges(@RequestBody FilterDTO filterDTO) {
 		Division divisionFilter = filterDTO.getDivision();
 		String conferenceFilter = filterDTO.getConference();
 		String stateFilter = filterDTO.getState();
@@ -67,13 +68,13 @@ public class RecruitingController {
 		if (statics && dynamics) {
 			// At least one of the fields is not null, perform the desired action
 			// e.g., process the filters, execute the search, etc.
-			List<CollegeProfile> returnList = recruitingService.getMatchingColleges(true, true, filterDTO);
+			List<CollegeProfileTagWrapper> returnList = recruitingService.getMatchingColleges(true, true, filterDTO);
 			return new ResponseEntity<>(returnList, HttpStatus.OK);
 		} else if (statics) {
-			List<CollegeProfile> returnList = recruitingService.getMatchingColleges(true, false, filterDTO);
+			List<CollegeProfileTagWrapper> returnList = recruitingService.getMatchingColleges(true, false, filterDTO);
 			return new ResponseEntity<>(returnList, HttpStatus.OK);
 		} else if (dynamics) {
-			List<CollegeProfile> returnList = recruitingService.getMatchingColleges(false, true, filterDTO);
+			List<CollegeProfileTagWrapper> returnList = recruitingService.getMatchingColleges(false, true, filterDTO);
 			return new ResponseEntity<>(returnList, HttpStatus.OK);
 		} else {
 			// Handle the case where all fields are null

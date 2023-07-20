@@ -2,7 +2,10 @@ package org.gangonem.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +16,13 @@ import java.util.stream.Stream;
 
 import org.gangonem.controller.FilterDTO;
 import org.gangonem.model.CollegeProfile;
+import org.gangonem.model.CollegeProfileTagWrapper;
 import org.gangonem.model.Division;
 import org.gangonem.model.EssentialsBonus;
 import org.gangonem.model.EventType;
 import org.gangonem.model.Gender;
 import org.gangonem.model.HBCUState;
+import org.gangonem.model.Level;
 import org.gangonem.model.Mark;
 import org.gangonem.model.PublicPrivateState;
 import org.gangonem.model.Standards;
@@ -81,7 +86,7 @@ public class RecruitingServiceImpl implements RecruitingService {
 	}
 
 	@Override
-	public List<CollegeProfile> getMatchingColleges(boolean hasStaticFilters, boolean hasDynamicFilters,
+	public List<CollegeProfileTagWrapper> getMatchingColleges(boolean hasStaticFilters, boolean hasDynamicFilters,
 			FilterDTO filterDTO) {
 		Stream<CollegeProfile> collegeProfileStream = collegeProfiles.stream();
 
@@ -91,17 +96,19 @@ public class RecruitingServiceImpl implements RecruitingService {
 
 		List<CollegeProfile> staticFilteredColleges = collegeProfileStream.collect(Collectors.toList());
 
-		List<CollegeProfile> dynamicFilteredColleges = new ArrayList<>();
+		List<CollegeProfileTagWrapper> staticFilteredCPWrapper = staticFilteredColleges.stream()
+				.map(cp -> new CollegeProfileTagWrapper(cp)).collect(Collectors.toList());
+
+		List<CollegeProfileTagWrapper> dynamicFilteredCPWrapper = new ArrayList<>();
 
 		if (hasDynamicFilters) {
-			dynamicFilteredColleges = applyDynamicFilters(collegeProfiles.stream(), filterDTO)
-					.collect(Collectors.toList());
+			dynamicFilteredCPWrapper = applyDynamicFilters(filterDTO);
 		} else {
-			return staticFilteredColleges;
+			return staticFilteredCPWrapper;
 		}
 
-		Set<CollegeProfile> intersectionSet = new HashSet<>(staticFilteredColleges);
-		intersectionSet.retainAll(dynamicFilteredColleges);
+		Set<CollegeProfileTagWrapper> intersectionSet = new HashSet<>(dynamicFilteredCPWrapper);
+		intersectionSet.retainAll(staticFilteredCPWrapper);
 
 		return new ArrayList<>(intersectionSet);
 
@@ -138,19 +145,56 @@ public class RecruitingServiceImpl implements RecruitingService {
 		return collegeProfileStream;
 	}
 
-	private Stream<CollegeProfile> applyDynamicFilters(Stream<CollegeProfile> collegeProfileStream,
-			FilterDTO filterDTO) {
+	private List<CollegeProfileTagWrapper> applyDynamicFilters(FilterDTO filterDTO) {
+
+		List<CollegeProfileTagWrapper> returnList = new ArrayList<>();
+
 		Gender gender = filterDTO.getGender();
 		Map<EventType, String> userInput = filterDTO.getUserInput();
 
 		for (EventType eventType : userInput.keySet()) {
 			Mark mark = MarkConverter.convertToMark(userInput.get(eventType));
-			collegeProfileStream = Stream.of(collegeProfileStream, this.collegeProfiles.stream())
-					.flatMap(stream -> stream.filter(cp -> beatsWalkOn(cp, eventType, mark, gender)));
-
+			returnList.addAll(getCPWrappersForOneEvent(eventType, mark, gender, userInput));
+			// this.collegeProfiles.stream().filter(cp -> beatsWalkOn(cp, eventType, mark,
+			// gender))
+			// .collect(Collectors.toList())
 		}
 
-		return collegeProfileStream;
+		return returnList;
+	}
+
+	private List<CollegeProfileTagWrapper> getCPWrappersForOneEvent(EventType eventType, Mark mark, Gender gender,
+			Map<EventType, String> userInput) {
+		List<CollegeProfileTagWrapper> returnList = new ArrayList<>();
+
+		for (CollegeProfile cp : this.collegeProfiles) {
+			if (this.beatsWalkOn(cp, eventType, mark, gender)) {
+				returnList.add(new CollegeProfileTagWrapper(cp, generateTags(cp, gender, userInput)));
+			}
+		}
+
+		return returnList;
+
+	}
+
+	private List<SimpleEntry<EventType, Level>> generateTags(CollegeProfile cp, Gender gender,
+			Map<EventType, String> userInput) {
+		List<SimpleEntry<EventType, Level>> returnList = new ArrayList<>();
+
+		for (EventType eventType : userInput.keySet()) {
+			Mark mark = MarkConverter.convertToMark(userInput.get(eventType));
+			if (this.beatsWalkOn(cp, eventType, mark, gender)) {
+				returnList.add(new AbstractMap.SimpleEntry<>(eventType, Level.WALK_ON));
+			}
+		}
+
+		return returnList;
+	}
+
+	public CollegeProfileTagWrapper convertToWrapper(CollegeProfile collegeProfile, EventType eventType, Mark mark) {
+		// Perform the conversion from CollegeProfile to CollegeProfileWrapper here
+		// For example:
+		return new CollegeProfileTagWrapper(collegeProfile);
 	}
 
 	private boolean beatsWalkOn(CollegeProfile cp, EventType eventType, Mark mark, Gender gender) {
@@ -164,8 +208,9 @@ public class RecruitingServiceImpl implements RecruitingService {
 				: cp.getStandardsSet().getFemaleWalkOn();
 
 		if (singleGenderStandards == null) {
-			// tag no data for gender
 			return false;
+
+			// tag no data for gender
 		}
 
 		Mark collegeMark = singleGenderStandards.getExistingEventsMapAndTheirTargetStandard().get(eventType);

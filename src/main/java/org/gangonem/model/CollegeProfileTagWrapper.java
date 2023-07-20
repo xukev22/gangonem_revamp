@@ -1,19 +1,22 @@
 package org.gangonem.model;
 
+import java.util.AbstractMap;
 import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
+import java.util.Objects;
 
 public class CollegeProfileTagWrapper {
 	CollegeProfile collegeProfile;
-	List<Pair<EventType, Level>> tags;
-	MissingInfo missingInfo;
+	List<AbstractMap.SimpleEntry<EventType, Level>> tags;
 
-	public CollegeProfileTagWrapper(CollegeProfile collegeProfile, List<Pair<EventType, Level>> tags,
-			MissingInfo missingInfo) {
+	public CollegeProfileTagWrapper(CollegeProfile collegeProfile,
+			List<AbstractMap.SimpleEntry<EventType, Level>> tags) {
 		this.collegeProfile = collegeProfile;
 		this.tags = tags;
-		this.missingInfo = missingInfo;
+	}
+
+	public CollegeProfileTagWrapper(CollegeProfile collegeProfile) {
+		this.collegeProfile = collegeProfile;
+		this.tags = null;
 	}
 
 	public CollegeProfile getCollegeProfile() {
@@ -24,20 +27,44 @@ public class CollegeProfileTagWrapper {
 		this.collegeProfile = collegeProfile;
 	}
 
-	public List<Pair<EventType, Level>> getTags() {
+	public List<AbstractMap.SimpleEntry<EventType, Level>> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Pair<EventType, Level>> tags) {
+	public void setTags(List<AbstractMap.SimpleEntry<EventType, Level>> tags) {
 		this.tags = tags;
 	}
 
-	public MissingInfo getMissingInfo() {
-		return missingInfo;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+
+		CollegeProfileTagWrapper other = (CollegeProfileTagWrapper) obj;
+
+		if (collegeProfile == null && other.collegeProfile == null) {
+			return false;
+		} else if (collegeProfile == null || other.collegeProfile == null) {
+			return false;
+		}
+
+		String thisName = collegeProfile.getEssentials() != null ? collegeProfile.getEssentials().getName() : null;
+		String otherName = other.collegeProfile.getEssentials() != null ? other.collegeProfile.getEssentials().getName()
+				: null;
+		return Objects.equals(thisName, otherName);
 	}
 
-	public void setMissingInfo(MissingInfo missingInfo) {
-		this.missingInfo = missingInfo;
+	@Override
+	public int hashCode() {
+		if (collegeProfile != null && collegeProfile.getEssentials() != null) {
+			return Objects.hash(collegeProfile.getEssentials().getName());
+		}
+		return Objects.hash(collegeProfile);
 	}
 
 }

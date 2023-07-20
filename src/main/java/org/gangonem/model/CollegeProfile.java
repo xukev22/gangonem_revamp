@@ -46,22 +46,4 @@ public class CollegeProfile {
 		this.eb = eb;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
-		CollegeProfile other = (CollegeProfile) obj;
-		return essentials != null && other.essentials != null
-				&& essentials.getName().equals(other.essentials.getName());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(essentials != null ? essentials.getName() : null);
-	}
-
 }
