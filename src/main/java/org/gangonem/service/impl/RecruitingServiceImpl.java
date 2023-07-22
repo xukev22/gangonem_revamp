@@ -168,7 +168,7 @@ public class RecruitingServiceImpl implements RecruitingService {
 		List<CollegeProfileTagWrapper> returnList = new ArrayList<>();
 
 		for (CollegeProfile cp : this.collegeProfiles) {
-			if (this.beatsWalkOn(cp, eventType, mark, gender)) {
+			if (this.beatsLevel(cp, eventType, mark, gender, Level.WALK_ON)) {
 				returnList.add(new CollegeProfileTagWrapper(cp, generateTags(cp, gender, userInput)));
 			}
 		}
@@ -183,7 +183,12 @@ public class RecruitingServiceImpl implements RecruitingService {
 
 		for (EventType eventType : userInput.keySet()) {
 			Mark mark = MarkConverter.convertToMark(userInput.get(eventType));
-			if (this.beatsWalkOn(cp, eventType, mark, gender)) {
+
+			if (this.beatsLevel(cp, eventType, mark, gender, Level.HARD_RECRUIT)) {
+				returnList.add(new AbstractMap.SimpleEntry<>(eventType, Level.HARD_RECRUIT));
+			} else if (this.beatsLevel(cp, eventType, mark, gender, Level.SOFT_RECRUIT)) {
+				returnList.add(new AbstractMap.SimpleEntry<>(eventType, Level.SOFT_RECRUIT));
+			} else if (this.beatsLevel(cp, eventType, mark, gender, Level.WALK_ON)) {
 				returnList.add(new AbstractMap.SimpleEntry<>(eventType, Level.WALK_ON));
 			}
 		}
@@ -197,20 +202,39 @@ public class RecruitingServiceImpl implements RecruitingService {
 		return new CollegeProfileTagWrapper(collegeProfile);
 	}
 
-	private boolean beatsWalkOn(CollegeProfile cp, EventType eventType, Mark mark, Gender gender) {
+	private boolean beatsLevel(CollegeProfile cp, EventType eventType, Mark mark, Gender gender, Level level) {
+
+		Standards singleGenderStandards = null;
 
 		if (cp.getStandardsSet() == null) {
 			// tag no data
 			return false;
 		}
 
-		Standards singleGenderStandards = gender.equals(Gender.MALE) ? cp.getStandardsSet().getMaleWalkOn()
-				: cp.getStandardsSet().getFemaleWalkOn();
-
-		if (singleGenderStandards == null) {
-			return false;
-
-			// tag no data for gender
+		if (level.equals(Level.HARD_RECRUIT)) {
+			if (gender.equals(Gender.MALE) && cp.getStandardsSet().getMaleHardRecruit() == null) {
+				return false;
+			} else if (gender.equals(Gender.FEMALE) && cp.getStandardsSet().getFemaleHardRecruit() == null) {
+				return false;
+			}
+			singleGenderStandards = gender.equals(Gender.MALE) ? cp.getStandardsSet().getMaleHardRecruit()
+					: cp.getStandardsSet().getFemaleHardRecruit();
+		} else if (level.equals(Level.SOFT_RECRUIT)) {
+			if (gender.equals(Gender.MALE) && cp.getStandardsSet().getMaleSoftRecruit() == null) {
+				return false;
+			} else if (gender.equals(Gender.FEMALE) && cp.getStandardsSet().getFemaleSoftRecruit() == null) {
+				return false;
+			}
+			singleGenderStandards = gender.equals(Gender.MALE) ? cp.getStandardsSet().getMaleSoftRecruit()
+					: cp.getStandardsSet().getFemaleSoftRecruit();
+		} else {
+			if (gender.equals(Gender.MALE) && cp.getStandardsSet().getMaleWalkOn() == null) {
+				return false;
+			} else if (gender.equals(Gender.FEMALE) && cp.getStandardsSet().getFemaleWalkOn() == null) {
+				return false;
+			}
+			singleGenderStandards = gender.equals(Gender.MALE) ? cp.getStandardsSet().getMaleWalkOn()
+					: cp.getStandardsSet().getFemaleWalkOn();
 		}
 
 		Mark collegeMark = singleGenderStandards.getExistingEventsMapAndTheirTargetStandard().get(eventType);
