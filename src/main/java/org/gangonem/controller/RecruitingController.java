@@ -106,4 +106,24 @@ public class RecruitingController {
 			return recruitingService.getListOfAllCollegeNames();
 		}
 	}
+	
+	@CrossOrigin(origins = "http://localhost:5173")
+	@GetMapping("/colleges/getListOfAllStates")
+	public List<String> getListOfAllStates() {
+		if (recruitingService.getListOfAllStates().size() == 0) {
+			throw new RuntimeException("List of college states is empty!");
+		} else {
+			return recruitingService.getListOfAllStates();
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:5173")
+	@GetMapping("/colleges/getListOfAllConferences")
+	public List<String> getListOfAllConferences() {
+		if (recruitingService.getListOfAllConferences().size() == 0) {
+			throw new RuntimeException("List of college conferences is empty!");
+		} else {
+			return recruitingService.getListOfAllConferences();
+		}
+	}
 }

@@ -14,12 +14,10 @@ public class FilterDTO {
 	Division division;
 	String conference;
 	String state;
-	String town;
 	PublicPrivateState publicOrPrivate;
 	HBCUState hbcuOrNot;
 
 	Gender gender;
-
 	Map<EventType, String> userInput;
 
 	public Division getDivision() {
@@ -44,14 +42,6 @@ public class FilterDTO {
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public String getTown() {
-		return town;
-	}
-
-	public void setTown(String town) {
-		this.town = town;
 	}
 
 	public PublicPrivateState getPublicOrPrivate() {

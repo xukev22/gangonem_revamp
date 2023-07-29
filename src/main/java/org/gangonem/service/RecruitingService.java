@@ -17,4 +17,8 @@ public interface RecruitingService {
 	Optional<EssentialsBonus> getMoreDetailsForCollegeByName(String collegeName);
 
 	List<CollegeProfileTagWrapper> getMatchingColleges(boolean s, boolean d, FilterDTO filterDTO);
+
+	List<String> getListOfAllStates();
+
+	List<String> getListOfAllConferences();
 }

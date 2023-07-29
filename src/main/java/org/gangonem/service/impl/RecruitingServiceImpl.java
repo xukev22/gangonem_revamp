@@ -6,6 +6,7 @@ import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -245,4 +246,38 @@ public class RecruitingServiceImpl implements RecruitingService {
 		return collegeMark.compare(mark) < 0;
 	}
 
+	@Override
+	public List<String> getListOfAllStates() {
+		List<String> returnList = new ArrayList<>();
+		for (CollegeProfile cp : this.collegeProfiles) {
+			returnList.add(cp.getEssentials().getState());
+		}
+		HashSet<String> uniqueNames = new HashSet<>(returnList);
+		returnList.clear();
+		returnList.addAll(uniqueNames);
+		returnList.sort(new AlphabeticalComparator());
+		return returnList;
+	}
+
+	@Override
+	public List<String> getListOfAllConferences() {
+		List<String> returnList = new ArrayList<>();
+		for (CollegeProfile cp : this.collegeProfiles) {
+			returnList.add(cp.getEssentials().getConference());
+		}
+		HashSet<String> uniqueNames = new HashSet<>(returnList);
+		returnList.clear();
+		returnList.addAll(uniqueNames);
+		returnList.sort(new AlphabeticalComparator());
+		return returnList;
+	}
+
+}
+
+//Custom comparator to sort strings in alphabetical order
+class AlphabeticalComparator implements Comparator<String> {
+	@Override
+	public int compare(String str1, String str2) {
+		return str1.compareTo(str2);
+	}
 }
