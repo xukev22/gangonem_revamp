@@ -115,6 +115,7 @@ public class StandardsSet {
 		Map<EventType, Mark> returnMap = new HashMap<>();
 
 		for (EventType eventType : eventsMap.keySet()) {
+			System.out.println("flag: " + eventType);
 			List<Mark> marks = new ArrayList<>(eventsMap.get(eventType).values());
 			marks.sort(new MarkComparator());
 			Mark mark = nPercentileMarkInList(marks, percentile);
@@ -205,6 +206,7 @@ public class StandardsSet {
 	static class MarkComparator implements Comparator<Mark> {
 		@Override
 		public int compare(Mark mark1, Mark mark2) {
+			System.out.println(mark1.debug() + " | " + mark2.debug());
 			return mark1.compare(mark2);
 		}
 	}

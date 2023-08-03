@@ -21,6 +21,8 @@ public class TFRRSParser {
 
 		// loop through each page from lower bound to upper bound
 		for (int pageIndex = pageLowerBound; pageIndex <= pageUpperBound; pageIndex++) {
+			
+			System.out.println(pageIndex);
 
 			// select all the meets on the page
 			String pageURL = url + "?page=" + pageIndex;
@@ -32,6 +34,7 @@ public class TFRRSParser {
 
 			// loop through each meet on one page
 			for (Element meet : meets) {
+				
 				// create meetData instance
 				Meet meetData = new Meet();
 
@@ -52,7 +55,8 @@ public class TFRRSParser {
 						break;
 					case 1:
 						meetData.setMeet(text);
-
+						System.out.println(text);
+						
 						// get the event url to request
 						String eventURL = column.child(0).attr("abs:href");
 						// fill the events field

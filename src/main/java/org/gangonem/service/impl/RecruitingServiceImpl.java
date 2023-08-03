@@ -77,7 +77,7 @@ public class RecruitingServiceImpl implements RecruitingService {
 	}
 
 	private void loadCollegeProfileData() throws StreamReadException, IOException {
-		File collegeProfileFile = new File("./data/bigCleanFinalTest.json");
+		File collegeProfileFile = new File("./data/xc-track-data.json");
 		collegeProfiles = new GeneralUtils().fileReaderCollegeProfileData(collegeProfileFile);
 	}
 

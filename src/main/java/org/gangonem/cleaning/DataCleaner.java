@@ -115,7 +115,7 @@ public class DataCleaner {
 			return EventType.FEMALE_TRACK_1000;
 		} else if (eventName.contains("800") && eventName.contains("women")) {
 			return EventType.FEMALE_TRACK_800;
-		} else if (eventName.contains("600") && eventName.contains("women")) {
+		} else if (eventName.contains("600") && !eventName.contains("600g") && eventName.contains("women")) {
 			return EventType.FEMALE_TRACK_600;
 		} else if (eventName.contains("500") && eventName.contains("women")) {
 			return EventType.FEMALE_TRACK_500;
@@ -190,7 +190,7 @@ public class DataCleaner {
 			return EventType.MALE_TRACK_1500;
 		} else if (eventName.contains("1000") && eventName.contains("men")) {
 			return EventType.MALE_TRACK_1000;
-		} else if (eventName.contains("800") && eventName.contains("men")) {
+		} else if (eventName.contains("800") && !eventName.contains("800g") && eventName.contains("men")) {
 			return EventType.MALE_TRACK_800;
 		} else if (eventName.contains("600") && eventName.contains("men")) {
 			return EventType.MALE_TRACK_600;

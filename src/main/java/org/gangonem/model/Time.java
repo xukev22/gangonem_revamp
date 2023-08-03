@@ -19,6 +19,7 @@ public class Time implements Mark {
 		} else {
 			this.fracSecond = fracSecond;
 		}
+		this.fracSecond = this.fracSecond.replace("h", "");
 	}
 
 	public int getMinute() {
@@ -52,6 +53,7 @@ public class Time implements Mark {
 
 	@Override
 	public int compareTime(Time other) {
+		System.out.println(other.minute + " " + other.second + " " + other.fracSecond);
 		int latterTimeInSeconds = this.minute * 60 * 100 + this.second * 100 + Integer.parseInt(this.fracSecond);
 		int formerTimeInSeconds = other.minute * 60 * 100 + other.second * 100 + Integer.parseInt(other.fracSecond);
 
