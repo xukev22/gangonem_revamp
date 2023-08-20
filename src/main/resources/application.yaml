@@ -9,7 +9,12 @@ spring:
 server:
   servlet:
     context-path: /
-  port: 8080
+  ssl:
+    key-store: ./certs/keystore.jks
+    key-store-password: password
+    key-store-type: jks
+    key-alias: selfsigned
+  port: 8443
  
 ---
 spring:
