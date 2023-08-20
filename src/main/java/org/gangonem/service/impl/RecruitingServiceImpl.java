@@ -272,6 +272,12 @@ public class RecruitingServiceImpl implements RecruitingService {
 		return returnList;
 	}
 
+	@Override
+	public List<CollegeProfileTagWrapper> getAllColleges() {
+		List<CollegeProfile> cps = this.collegeProfiles;
+		return cps.stream().map(cp -> new CollegeProfileTagWrapper(cp)).collect(Collectors.toList());
+	}
+
 }
 
 //Custom comparator to sort strings in alphabetical order

@@ -23,17 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RecruitingController {
+	static final String ORIGIN_DOMAIN = "http://18.222.77.184";
+	
+	
 	@Autowired
 	RecruitingService recruitingService;
 
-	@CrossOrigin(origins = "http://localhost:5173")
+	@CrossOrigin(origins = ORIGIN_DOMAIN)
 	@GetMapping("/colleges/getDetailsForCollegeByName")
 	public CollegeProfile getDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
 		// search for college name, return the full college profile
 
 		CollegeProfile returnProfile = new CollegeProfile();
 
-		String convertedAndToAmpersand = collegeName.replace("and", "&");
+		String convertedAndToAmpersand = collegeName.replace("---and---", "&");
 
 		if (recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).isPresent()) {
 			returnProfile = recruitingService.getDetailsForCollegeByName(convertedAndToAmpersand).get();
@@ -47,8 +50,14 @@ public class RecruitingController {
 
 		return returnProfile;
 	}
+	
+	@CrossOrigin(origins = ORIGIN_DOMAIN)
+	@GetMapping("/colleges/getAllColleges")
+	public List<CollegeProfileTagWrapper> getAllColleges() {
+		return recruitingService.getAllColleges();
+	}
 
-	@CrossOrigin(origins = "http://localhost:5173")
+	@CrossOrigin(origins = ORIGIN_DOMAIN)
 	@PostMapping("/colleges/getMatchingColleges")
 	public ResponseEntity<List<CollegeProfileTagWrapper>> getMatchingColleges(@RequestBody FilterDTO filterDTO) {
 		Division divisionFilter = filterDTO.getDivision();
@@ -83,12 +92,12 @@ public class RecruitingController {
 		}
 	}
 
-//	@CrossOrigin(origins = "http://localhost:5173")
+//	@CrossOrigin(origins = ORIGIN_DOMAIN)
 //	@GetMapping("/colleges/getMoreDetailsForCollegeByName")
 //	public EssentialsBonus getMoreDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
 //		// search for college name, return the full college profile
 //
-//		String convertedAndToAmpersand = collegeName.replace("and", "&");
+//		String convertedAndToAmpersand = collegeName.replace("---and---", "&");
 //
 //		if (recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).isPresent()) {
 //			return recruitingService.getMoreDetailsForCollegeByName(convertedAndToAmpersand).get();
@@ -97,7 +106,7 @@ public class RecruitingController {
 //		}
 //	}
 
-	@CrossOrigin(origins = "http://localhost:5173")
+	@CrossOrigin(origins = ORIGIN_DOMAIN)
 	@GetMapping("/colleges/getListOfAllCollegeNames")
 	public List<String> getListOfAllCollegeNames() {
 		if (recruitingService.getListOfAllCollegeNames().size() == 0) {
@@ -107,7 +116,7 @@ public class RecruitingController {
 		}
 	}
 	
-	@CrossOrigin(origins = "http://localhost:5173")
+	@CrossOrigin(origins = ORIGIN_DOMAIN)
 	@GetMapping("/colleges/getListOfAllStates")
 	public List<String> getListOfAllStates() {
 		if (recruitingService.getListOfAllStates().size() == 0) {
@@ -117,7 +126,7 @@ public class RecruitingController {
 		}
 	}
 	
-	@CrossOrigin(origins = "http://localhost:5173")
+	@CrossOrigin(origins = ORIGIN_DOMAIN)
 	@GetMapping("/colleges/getListOfAllConferences")
 	public List<String> getListOfAllConferences() {
 		if (recruitingService.getListOfAllConferences().size() == 0) {

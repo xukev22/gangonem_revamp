@@ -9,15 +9,22 @@ spring:
 server:
   servlet:
     context-path: /
-  ssl:
-    key-store: ./certs/keystore.jks
-    key-store-password: password
-    key-store-type: jks
-    key-alias: selfsigned
-  port: 8443
+
+  port: 8080
  
 ---
 spring:
   config:
     activate:
       on-profile: local
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+  ssl:
+    key-store: ./certs/keystore.jks
+    key-store-password: password
+    key-store-type: jks
+    key-alias: selfsigned
+  port: 8443      

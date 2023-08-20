@@ -21,4 +21,6 @@ public interface RecruitingService {
 	List<String> getListOfAllStates();
 
 	List<String> getListOfAllConferences();
+
+	List<CollegeProfileTagWrapper> getAllColleges();
 }
