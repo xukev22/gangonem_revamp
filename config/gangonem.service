@@ -1,0 +1,9 @@
+[Unit]
+Description=GANGONEM APP
+
+[Service]
+User=root
+ExecStart=/home/ec2-user/gangonem_revamp/startup.sh
+
+[Install]
+WantedBy=multi-user.target
