@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RecruitingController {
 	static final String ORIGIN_DOMAIN = "http://www.blockstart.org";
+	static final String ORIGIN_DOMAIN_2 = "http://blockstart.org";
 //	static final String ORIGIN_DOMAIN = "http://localhost";
-	
-	
+
 	@Autowired
 	RecruitingService recruitingService;
 
-	@CrossOrigin(origins = ORIGIN_DOMAIN)
+	@CrossOrigin(origins = { ORIGIN_DOMAIN, ORIGIN_DOMAIN_2 })
 	@GetMapping("/colleges/getDetailsForCollegeByName")
 	public CollegeProfile getDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
 		// search for college name, return the full college profile
@@ -51,14 +51,14 @@ public class RecruitingController {
 
 		return returnProfile;
 	}
-	
-	@CrossOrigin(origins = ORIGIN_DOMAIN)
+
+	@CrossOrigin(origins = { ORIGIN_DOMAIN, ORIGIN_DOMAIN_2 })
 	@GetMapping("/colleges/getAllColleges")
 	public List<CollegeProfileTagWrapper> getAllColleges() {
 		return recruitingService.getAllColleges();
 	}
 
-	@CrossOrigin(origins = ORIGIN_DOMAIN)
+	@CrossOrigin(origins = { ORIGIN_DOMAIN, ORIGIN_DOMAIN_2 })
 	@PostMapping("/colleges/getMatchingColleges")
 	public ResponseEntity<List<CollegeProfileTagWrapper>> getMatchingColleges(@RequestBody FilterDTO filterDTO) {
 		Division divisionFilter = filterDTO.getDivision();
@@ -93,7 +93,7 @@ public class RecruitingController {
 		}
 	}
 
-//	@CrossOrigin(origins = ORIGIN_DOMAIN)
+//	@CrossOrigin(origins = {ORIGIN_DOMAIN, ORIGIN_DOMAIN_2})
 //	@GetMapping("/colleges/getMoreDetailsForCollegeByName")
 //	public EssentialsBonus getMoreDetailsForCollegeByName(@RequestParam("collegeName") String collegeName) {
 //		// search for college name, return the full college profile
@@ -107,7 +107,7 @@ public class RecruitingController {
 //		}
 //	}
 
-	@CrossOrigin(origins = ORIGIN_DOMAIN)
+	@CrossOrigin(origins = { ORIGIN_DOMAIN, ORIGIN_DOMAIN_2 })
 	@GetMapping("/colleges/getListOfAllCollegeNames")
 	public List<String> getListOfAllCollegeNames() {
 		if (recruitingService.getListOfAllCollegeNames().size() == 0) {
@@ -116,8 +116,8 @@ public class RecruitingController {
 			return recruitingService.getListOfAllCollegeNames();
 		}
 	}
-	
-	@CrossOrigin(origins = ORIGIN_DOMAIN)
+
+	@CrossOrigin(origins = { ORIGIN_DOMAIN, ORIGIN_DOMAIN_2 })
 	@GetMapping("/colleges/getListOfAllStates")
 	public List<String> getListOfAllStates() {
 		if (recruitingService.getListOfAllStates().size() == 0) {
@@ -126,8 +126,8 @@ public class RecruitingController {
 			return recruitingService.getListOfAllStates();
 		}
 	}
-	
-	@CrossOrigin(origins = ORIGIN_DOMAIN)
+
+	@CrossOrigin(origins = { ORIGIN_DOMAIN, ORIGIN_DOMAIN_2 })
 	@GetMapping("/colleges/getListOfAllConferences")
 	public List<String> getListOfAllConferences() {
 		if (recruitingService.getListOfAllConferences().size() == 0) {
