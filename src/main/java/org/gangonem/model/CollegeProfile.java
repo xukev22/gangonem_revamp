@@ -46,4 +46,9 @@ public class CollegeProfile {
 		this.eb = eb;
 	}
 
+	public CollegeProfileSummary toSummary() {
+		return new CollegeProfileSummary(this.getEssentials().getName(), this.getEssentials().getState(),
+				this.getEssentials().getDivision());
+	}
+
 }

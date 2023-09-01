@@ -5,26 +5,26 @@ import java.util.List;
 import java.util.Objects;
 
 public class CollegeProfileTagWrapper {
-	CollegeProfile collegeProfile;
+	CollegeProfileSummary collegeProfileSummary;
 	List<AbstractMap.SimpleEntry<EventType, Level>> tags;
 
-	public CollegeProfileTagWrapper(CollegeProfile collegeProfile,
+	public CollegeProfileTagWrapper(CollegeProfileSummary collegeProfileSummary,
 			List<AbstractMap.SimpleEntry<EventType, Level>> tags) {
-		this.collegeProfile = collegeProfile;
+		this.collegeProfileSummary = collegeProfileSummary;
 		this.tags = tags;
 	}
 
-	public CollegeProfileTagWrapper(CollegeProfile collegeProfile) {
-		this.collegeProfile = collegeProfile;
+	public CollegeProfileTagWrapper(CollegeProfileSummary collegeProfileSummary) {
+		this.collegeProfileSummary = collegeProfileSummary;
 		this.tags = null;
 	}
 
-	public CollegeProfile getCollegeProfile() {
-		return collegeProfile;
+	public CollegeProfileSummary getCollegeProfileSummary() {
+		return collegeProfileSummary;
 	}
 
-	public void setCollegeProfile(CollegeProfile collegeProfile) {
-		this.collegeProfile = collegeProfile;
+	public void setCollegeProfileSummary(CollegeProfileSummary collegeProfileSummary) {
+		this.collegeProfileSummary = collegeProfileSummary;
 	}
 
 	public List<AbstractMap.SimpleEntry<EventType, Level>> getTags() {
@@ -47,24 +47,21 @@ public class CollegeProfileTagWrapper {
 
 		CollegeProfileTagWrapper other = (CollegeProfileTagWrapper) obj;
 
-		if (collegeProfile == null && other.collegeProfile == null) {
-			return false;
-		} else if (collegeProfile == null || other.collegeProfile == null) {
+		if (collegeProfileSummary == null || other.collegeProfileSummary == null) {
 			return false;
 		}
 
-		String thisName = collegeProfile.getEssentials() != null ? collegeProfile.getEssentials().getName() : null;
-		String otherName = other.collegeProfile.getEssentials() != null ? other.collegeProfile.getEssentials().getName()
-				: null;
+		String thisName = collegeProfileSummary.getName();
+		String otherName = other.collegeProfileSummary.getName();
 		return Objects.equals(thisName, otherName);
 	}
 
 	@Override
 	public int hashCode() {
-		if (collegeProfile != null && collegeProfile.getEssentials() != null) {
-			return Objects.hash(collegeProfile.getEssentials().getName());
+		if (collegeProfileSummary != null && collegeProfileSummary.getName() != null) {
+			return Objects.hash(collegeProfileSummary.getName());
 		}
-		return Objects.hash(collegeProfile);
+		return Objects.hash(collegeProfileSummary);
 	}
 
 }

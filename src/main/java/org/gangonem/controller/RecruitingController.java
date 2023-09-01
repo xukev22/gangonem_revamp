@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RecruitingController {
 	static final String ORIGIN_DOMAIN = "http://www.blockstart.org";
+//	static final String ORIGIN_DOMAIN = "http://localhost";
 	
 	
 	@Autowired

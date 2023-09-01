@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 import org.gangonem.controller.FilterDTO;
 import org.gangonem.model.CollegeProfile;
+import org.gangonem.model.CollegeProfileSummary;
 import org.gangonem.model.CollegeProfileTagWrapper;
 import org.gangonem.model.Division;
 import org.gangonem.model.EssentialsBonus;
@@ -98,7 +99,7 @@ public class RecruitingServiceImpl implements RecruitingService {
 		List<CollegeProfile> staticFilteredColleges = collegeProfileStream.collect(Collectors.toList());
 
 		List<CollegeProfileTagWrapper> staticFilteredCPWrapper = staticFilteredColleges.stream()
-				.map(cp -> new CollegeProfileTagWrapper(cp)).collect(Collectors.toList());
+				.map(cp -> new CollegeProfileTagWrapper(cp.toSummary())).collect(Collectors.toList());
 
 		List<CollegeProfileTagWrapper> dynamicFilteredCPWrapper = new ArrayList<>();
 
@@ -170,7 +171,7 @@ public class RecruitingServiceImpl implements RecruitingService {
 
 		for (CollegeProfile cp : this.collegeProfiles) {
 			if (this.beatsLevel(cp, eventType, mark, gender, Level.WALK_ON)) {
-				returnList.add(new CollegeProfileTagWrapper(cp, generateTags(cp, gender, userInput)));
+				returnList.add(new CollegeProfileTagWrapper(cp.toSummary(), generateTags(cp, gender, userInput)));
 			}
 		}
 
@@ -200,7 +201,7 @@ public class RecruitingServiceImpl implements RecruitingService {
 	public CollegeProfileTagWrapper convertToWrapper(CollegeProfile collegeProfile, EventType eventType, Mark mark) {
 		// Perform the conversion from CollegeProfile to CollegeProfileWrapper here
 		// For example:
-		return new CollegeProfileTagWrapper(collegeProfile);
+		return new CollegeProfileTagWrapper(collegeProfile.toSummary());
 	}
 
 	private boolean beatsLevel(CollegeProfile cp, EventType eventType, Mark mark, Gender gender, Level level) {
@@ -275,7 +276,9 @@ public class RecruitingServiceImpl implements RecruitingService {
 	@Override
 	public List<CollegeProfileTagWrapper> getAllColleges() {
 		List<CollegeProfile> cps = this.collegeProfiles;
-		return cps.stream().map(cp -> new CollegeProfileTagWrapper(cp)).collect(Collectors.toList());
+		return cps.stream().map(cp -> cp.toSummary()).map(cp -> new CollegeProfileTagWrapper(cp))
+				.collect(Collectors.toList());
+
 	}
 
 }
