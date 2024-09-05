@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RecruitingController {
-	static final String ORIGIN_DOMAIN = "http://www.blockstart.org";
-	static final String ORIGIN_DOMAIN_2 = "http://blockstart.org";
+	static final String ORIGIN_DOMAIN = "http://www.blockstart.net";
+	static final String ORIGIN_DOMAIN_2 = "http://blockstart.net";
 //	static final String ORIGIN_DOMAIN = "http://localhost";
 
 	@Autowired
